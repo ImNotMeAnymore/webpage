@@ -1,0 +1,213 @@
+/*All of this is just what copilot suggested, I can't into colour schemes.
+Or frontend in general really */
+
+:root {
+	--main-font: Arial, sans-serif;
+	--header-font: serif;
+	--primary-color: #b4f852;
+	--text-shadow: #183a0b;
+	--bg-color: #121212;
+	--header-bg: #161b1f;
+	--border-color: #222;
+	--text-light: #79a617;
+	--max-width: 70%;
+	--link-hover: #f6ff00;
+	--selection-bg: #1f4017;
+	--selection-color: #eaffc1;
+}
+
+/* light mode
+:root {
+	--main-font: Arial, sans-serif;
+	--header-font: serif;
+	--primary-color: #379c3a;
+	--text-shadow: #d3e8cc;
+	--bg-color: #f6fff2;
+	--header-bg: #eaf8e0;
+	--border-color: #d3e8cc;
+	--text-light: #5fa82e;
+	--max-width: 70%;
+	--link-hover: #8ba94b;
+	--selection-bg: #b4f852;
+	--selection-color: #0a1a05;
+} */
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background: var(--bg-color);
+	color: var(--primary-color);
+	font-family: var(--main-font);
+	font-size: 18px;
+	line-height: 1.7;
+}
+::selection {
+	background: var(--selection-bg);
+	color: var(--selection-color);
+}
+.header {
+	background: var(--header-bg);
+	padding: 1rem 0;
+	text-align: center;
+	border-bottom: 1px solid var(--border-color);
+}
+.header-title-row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1.2rem;
+}
+.header-title {
+	font-family: var(--header-font);
+	font-size: 2.5rem;
+	font-weight: bold;
+	letter-spacing: 1px;
+	margin: 0;
+	color: var(--primary-color);
+	text-shadow: 0 0 8px var(--text-shadow);
+	display: inline-block;
+}
+.header-tagline {
+	font-family: var(--main-font);
+	font-size: 1.2rem;
+	color: var(--text-light);
+	margin-top: 0.5rem;
+	margin-bottom: 1.5rem;
+	white-space: nowrap;
+	display: inline-block;
+	overflow: hidden;
+	width: 0;
+	animation: typing 2s steps(30, end) 0.2s forwards
+}
+.header-tagline::after {
+	content: " _";
+	color: var(--link-hover);
+	animation: blink 1.1s steps(1) infinite;
+}
+@keyframes typing {
+	0% { width: 0; }
+	100% { width: var(--quote-length)}
+}
+@keyframes blink {
+	0%, 49% {opacity: 1;}
+	50%, 100% {opacity: 0;}
+}
+
+.header-nav {
+	display: flex;
+	justify-content: center;
+	gap: 2rem;
+	font-family: var(--main-font);
+	font-size: 1rem;
+}
+.header-nav a {
+	text-decoration: none;
+	color: var(--primary-color);
+	font-weight: 600;
+	transition: color 0.2s;
+	text-shadow: 0 0 4px var(--text-shadow);
+}
+.header-nav a:hover {color: var(--link-hover);}
+.main-content {
+	max-width: var(--max-width);
+	margin: 2rem auto;
+	padding: 2rem;
+	background: transparent;
+	box-sizing: border-box;
+	border-radius: 4px;
+	box-shadow: 0 0 16px 2px #0d290c66;
+}
+.main-content h2, .main-content h3, .main-content h4 {
+	color: var(--primary-color);
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+	font-weight: 600;
+	line-height: 1.2;
+	font-family: var(--header-font);
+	text-shadow: 0 0 6px var(--text-shadow);
+}
+.main-content p {margin-bottom: 1.2em;}
+.main-content ul, .main-content ol {
+	margin-bottom: 1.2em;
+	padding-left: 2em;
+}
+.main-content li {color: var(--primary-color);}
+.main-content img {
+	max-width: 100%;
+	display: block;
+	margin: 2em auto;
+	border: 2px solid var(--primary-color);
+	border-radius: 4px;
+}
+a {
+	color: var(--primary-color);
+	text-decoration: underline;
+	transition: color 0.2s;
+}
+a:hover {color: var(--link-hover);}
+@media (max-width: 800px) {
+	.main-content {padding: 1rem;}
+	.header {padding: 1rem 0;}
+	.header-title {font-size: 2rem;}
+	.button-logo {min-width: 24px;min-height: 17px;}
+}
+@media (max-width: 500px) {
+	.main-content {padding: 0.5rem;}
+	.header-title {font-size: 1.4rem;}
+	.header-nav {gap: 1rem;font-size: 0.95rem;}
+	.header-title-row {gap: 0.7rem;}
+}
+.footer {
+	width: 100%;
+	padding: 0.4rem 0;
+	background: var(--header-bg);
+	display: flex;
+	justify-content: center;
+	align-items: left;
+	position: relative;
+	margin-top: 1rem;
+	border-top: 1px solid var(--border-color);
+	min-height: 20px;
+}
+.footer-circle {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	background: var(--primary-color);
+	font-size: 2rem;
+	border: none;
+	display: flex;
+	align-items: left;
+	justify-content: left;
+	box-shadow: 0 2px 12px #0d290c99;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s, transform 0.2s;
+	outline: none;
+}
+.footer-circle:hover, .footer-circle:focus {
+	background: var(--link-hover);
+	color: var(--border-color);
+	transform: scale(1.1);
+}
+.footer-links {
+	position: sticky;
+	left: 70vw;
+	top: 50%;
+	text-align: right;
+}
+.footer-links a {
+	color: #888;
+	font-family: sans-serif;
+	text-decoration: none;
+	font-size: 0.9rem;
+	transition: color 0.2s;
+}
+.footer-links a:hover {
+	color: var(--link-hover);
+}
+.footer-links ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
