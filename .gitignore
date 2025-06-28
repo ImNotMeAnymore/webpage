@@ -196,5 +196,4 @@ cython_debug/
 
 resources/favicon-s.png
 # special favicons
-database.db
-othersutff.md
+NO/*
