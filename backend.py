@@ -65,8 +65,8 @@ def index():
 @app.route("/e/<int:id>")
 def blogentry(id:int):
 	data = db.session.get(Entries, id)
-	if data: return render_template('entry.html', d=data, css="/css/main")
-	return render_template('404.html', d=data, css="/css/main"), 404
+	if data: return render_template('entry.html', d=data, css="/css/main", content=data.content)
+	return render_template('entry.html', d=data, css="/css/main", content="404"), 404
 
 
 
