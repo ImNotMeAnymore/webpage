@@ -3,20 +3,20 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{{supertitle}}</title>
+	<title>{{d.title}}</title>
 	<link rel="icon" type="image/x-icon" href="/favicon">
 	<link rel="stylesheet" href="{{css}}">
 </head>
 <body>
 	<header class="header">
-		<div class="header-title-row"><h1 class="header-title">{{supertitle}}</h1></div>
+		<div class="header-title-row"><h1 class="header-title">{{d.title}}</h1></div>
 		<div class="header-tagline" style="--quote-length:{{len(quote)}}ch;">{{quote}}</div>
 		<nav class="header-nav">
 			<a href="/">Home</a><a href="/about">About</a><a href="/index">Index of stuff</a>
 		</nav>
 	</header>
 	<main class="main-content">
-		{{content}}
+		{{d.content}}
 	</main>
 
 	<footer class="footer">
