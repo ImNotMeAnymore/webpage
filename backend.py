@@ -66,7 +66,7 @@ def index():
 def blogentry(id):
 	data = db.session.get(Entries, id)
 	if data: return render_template('entry.html', d=data)
-	return "Not found", 404
+	return render_template('404.html', d=data), 404
 
 @app.route('/favicon')
 def favicon():
