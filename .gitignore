@@ -194,6 +194,5 @@ cython_debug/
 .cursorindexingignore
 
 
-resources/favicon-s.png
-# special favicons
-NO/*
+static/favicon-s.png
+# special favicon

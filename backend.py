@@ -3,7 +3,7 @@
 
 import random
 from random import randint as rdi
-from flask import Flask, g, request as RQ, abort, send_file, render_template
+from flask import Flask, g, request as RQ, abort, send_file, render_template, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
 
@@ -63,14 +63,20 @@ def index():
 
 
 @app.route("/e/<int:id>")
-def blogentry(id):
+def blogentry(id:int):
 	data = db.session.get(Entries, id)
-	if data: return render_template('entry.html', d=data)
-	return render_template('404.html', d=data), 404
+	if data: return render_template('entry.html', d=data, css="/css/main")
+	return render_template('404.html', d=data, css="/css/main"), 404
+
+
+
+@app.route('/css/<name>')
+def css(name:str):
+	return send_file(f"static/{name}.css", mimetype='text/css')
 
 @app.route('/favicon')
 def favicon():
-	return send_file(f"resources/favicon{"-s"if not rdi(0,5) else ""}.png", mimetype='image/png')
+	return send_file(f"static/favicon{"-s"if not rdi(0,5) else ""}.png", mimetype='image/png')
 
 
 
