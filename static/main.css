@@ -133,28 +133,24 @@ footer {
 	background: var(--header-bg);
 	display: flex;
 	justify-content: center;
-	align-items: left;
 	position: relative;
 	margin-top: 1rem;
 	border-top: 1px solid var(--border-color);
 	min-height: 20px;
 }
-.footer-circle {
+.footer-square {
 	width: 56px;
 	height: 56px;
-	border-radius: 50%;
+	border-radius: 15%;
 	background: var(--primary-color);
-	font-size: 2rem;
 	border: none;
 	display: flex;
-	align-items: left;
-	justify-content: left;
-	box-shadow: 0 2px 12px #0d290c99;
-	cursor: pointer;
+	cursor: n-resize;
 	transition: background 0.2s, color 0.2s, transform 0.2s;
-	outline: none;
+	position: sticky;
+	right: 70vw;
 }
-.footer-circle:hover, .footer-circle:focus {
+.footer-square:hover, .footer-square:focus {
 	background: var(--link-hover);
 	color: var(--border-color);
 	transform: scale(1.1);
