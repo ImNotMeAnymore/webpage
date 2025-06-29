@@ -17,7 +17,7 @@ db = SQLAlchemy(app)
 class Entries(db.Model):
 	__tablename__ = "ENTRIES"
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	title = db.Column(db.String, nullable=False)
+	title = db.Column(db.String, nullable=False, unique=True)
 	content = db.Column(db.Text, nullable=False)
 	date = db.Column(db.Integer, nullable=False)
 
