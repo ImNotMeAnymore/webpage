@@ -8,18 +8,18 @@
 	<link rel="stylesheet" href="{{css}}">
 </head>
 <body>
-	<header class="header">
+	<header>
 		<div class="header-title-row"><h1 class="header-title">{{d.title}}</h1></div>
 		<div class="header-tagline" style="--quote-length:{{len(quote)}}ch;">{{quote}}</div>
 		<nav class="header-nav">
 			<a href="/">Home</a><a href="/about">About</a><a href="/index">Index of stuff</a>
 		</nav>
 	</header>
-	<main class="main-content">
-		{{content}}
+	<main>
+		{{d.content}}
 	</main>
 
-	<footer class="footer">
+	<footer>
 		<button class="footer-circle" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Scroll to top">
 		<svg class="button-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 74 52">
 			<path d="M8.604 12.76c.437.202 3.756.166 5.787.12 2.781.003 5.567-.005 8.345 0 1.593.13 6.123 1.612 4.431 3.353-1.792 1.037-6.575-.96-6.904 1.262-.583 1.905-.095 3.975.176 5.98 1.02 1.38-.956 5.22 1.219 4.855 1.431-.593 5.805.062 4.222 1.904-1.924.429-3.703.797-5.99.61-3.123-.005-6.254.009-9.37 0-1.096-2.616 4.124-1.532 4.79-2.155.29-.448-2.014-2.86-1.42-4.547-.057-2.596.684-4.816.694-7.323-2.4-.058-8.27.396-6.939-3.34-.128-.543.675-.486.959-.719"/>
