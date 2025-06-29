@@ -1,0 +1,14 @@
+:root {
+	--main-font: Arial, sans-serif;
+	--header-font: serif;
+	--primary-color: #b4f852;
+	--text-shadow: #183a0b;
+	--bg-color: #121212;
+	--header-bg: #161b1f;
+	--border-color: #222;
+	--text-light: #79a617;
+	--max-width: 70%;
+	--link-hover: #f6ff00;
+	--selection-bg: #1f4017;
+	--selection-color: #eaffc1;
+}

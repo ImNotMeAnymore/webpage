@@ -64,15 +64,23 @@ def index():
 
 @app.route("/e/<int:id>")
 def blogentry(id:int):
+	
 	data = db.session.get(Entries, id)
-	if data: return render_template('entry.html.jinja', d=data, css="/css/main", content=data.content)
-	return render_template('entry.html.jinja', d=data, css="/css/main", content="404"), 404
+	if data: return render_template('entry.html.jinja', d=data, theme="normal", len=len)
+	data = {
+		"title":"What were you looking for???",
+		"content":"<h1 class='big-404 cent'>404</h1><p class='cent'>page not found</p>"
+	}
+	return render_template('entry.html.jinja', d=data, theme="normal",
+		len=len,quote="Whatever it was it's not here."), 404
 
 
+
+@app.route('/theme/<name>')
+def theme(name:str): return send_file(f"static/theme/{name}.css", mimetype='text/css')
 
 @app.route('/css/<name>')
-def css(name:str):
-	return send_file(f"static/{name}.css", mimetype='text/css')
+def css(name:str): return send_file(f"static/{name}.css", mimetype='text/css')
 
 @app.route('/favicon')
 def favicon():

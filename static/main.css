@@ -1,37 +1,6 @@
 /*All of this is just what copilot suggested, I can't into colour schemes.
 Or frontend in general really */
 
-:root {
-	--main-font: Arial, sans-serif;
-	--header-font: serif;
-	--primary-color: #b4f852;
-	--text-shadow: #183a0b;
-	--bg-color: #121212;
-	--header-bg: #161b1f;
-	--border-color: #222;
-	--text-light: #79a617;
-	--max-width: 70%;
-	--link-hover: #f6ff00;
-	--selection-bg: #1f4017;
-	--selection-color: #eaffc1;
-}
-
-/* light mode
-:root {
-	--main-font: Arial, sans-serif;
-	--header-font: serif;
-	--primary-color: #379c3a;
-	--text-shadow: #d3e8cc;
-	--bg-color: #f6fff2;
-	--header-bg: #eaf8e0;
-	--border-color: #d3e8cc;
-	--text-light: #5fa82e;
-	--max-width: 70%;
-	--link-hover: #8ba94b;
-	--selection-bg: #b4f852;
-	--selection-color: #0a1a05;
-} */
-
 html, body {
 	height: 100%;
 	margin: 0;
