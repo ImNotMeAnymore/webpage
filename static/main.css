@@ -148,7 +148,7 @@ footer {
 	cursor: n-resize;
 	transition: background 0.2s, color 0.2s, transform 0.2s;
 	position: sticky;
-	right: 70vw;
+	right: 90vw;
 }
 .footer-square:hover, .footer-square:focus {
 	background: var(--link-hover);
