@@ -84,7 +84,7 @@ def css(name:str): return send_file(f"static/{name}.css", mimetype='text/css')
 
 @app.route('/favicon')
 def favicon():
-	return send_file(f"static/favicon{"-s"if not rdi(0,5) else ""}.png", mimetype='image/png')
+	return send_file(f'static/favicon{"-s"if not rdi(0,5) else ""}.png', mimetype='image/png')
 
 
 
