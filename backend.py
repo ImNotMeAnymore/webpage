@@ -57,6 +57,24 @@ def before():
 
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+	data = {
+		"title":"What were you looking for???",
+		"content":"<h1 class='big-404 cent'>404</h1><p class='cent'>page not found</p>"
+	}
+	return render_template('entry.html.jinja', d=data, theme="normal",
+		len=len, quote="Whatever it was it's not here."), 404
+
+
+
+
+
+
+
+
+
+
 @app.route("/")
 def index():
 	return "test"
@@ -64,15 +82,9 @@ def index():
 
 @app.route("/e/<int:id>")
 def blogentry(id:int):
-	
 	data = db.session.get(Entries, id)
-	if data: return render_template('entry.html.jinja', d=data, theme="normal", len=len)
-	data = {
-		"title":"What were you looking for???",
-		"content":"<h1 class='big-404 cent'>404</h1><p class='cent'>page not found</p>"
-	}
-	return render_template('entry.html.jinja', d=data, theme="normal",
-		len=len,quote="Whatever it was it's not here."), 404
+	if not data: abort(404)
+	return render_template('entry.html.jinja', d=data, theme="normal", len=len)
 
 
 
@@ -91,11 +103,12 @@ def favicon():
 
 
 
-
+port = 15498
 
 def getapp():
 	print("Starting server...")
 	return app
 if __name__ == "__main__":
+	#getapp().run(host="::", port=port)
 	from waitress import serve
-	serve(getapp(), host="0.0.0.0", port=15498)
+	serve(getapp(), host="::", port=port)
