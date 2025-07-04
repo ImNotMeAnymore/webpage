@@ -57,6 +57,22 @@ def before():
 
 
 
+quote404 = [
+	"Whatever it was it's not here.",
+	"I'm sorry, Dave. I'm afraid I can't do that.",
+	"Keyboard not found, press any key to continue...",
+	"Turn it off and on again.",
+	"The leather page is two IP blocks down.",
+	"It is pitch black. You are likely to be eaten by a grue.",
+	"I was never really here to begin with.",
+	"If something doesn't exist, create it yourself!",
+	"The page is on another castle",
+	"The quote is a lie",
+	"Maybe you should just enjoy being lost for now"
+]
+
+
+
 @app.errorhandler(404)
 def page_not_found(e):
 	data = {
@@ -64,14 +80,7 @@ def page_not_found(e):
 		"content":"<h1 class='big-404 cent'>404</h1><p class='cent'>page not found</p>"
 	}
 	return render_template('entry.html.jinja', d=data, theme="normal",
-		len=len, quote="Whatever it was it's not here."), 404
-
-
-
-
-
-
-
+		len=len, quote=random.choice(quote404)), 404
 
 
 
