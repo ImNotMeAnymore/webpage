@@ -104,7 +104,7 @@ def favicon():
 
 
 port = 15498
-
+port = 443
 def getapp():
 	print("Starting server...")
 	return app
