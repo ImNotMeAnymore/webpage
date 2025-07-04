@@ -66,7 +66,7 @@ quote404 = [
 	"It is pitch black. You are likely to be eaten by a grue.",
 	"I was never really here to begin with.",
 	"If something doesn't exist, create it yourself!",
-	"The page is on another castle",
+	"The page is in another castle",
 	"The quote is a lie",
 	"Maybe you should just enjoy being lost for now"
 ]
