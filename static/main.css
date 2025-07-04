@@ -55,7 +55,7 @@ header {
 	display: inline-block;
 	overflow: hidden;
 	width: 0;
-	animation: typing var(--quote-time) steps(30, end) 0.2s forwards
+	animation: typing var(--quote-time) steps(var(--quote-length), end) 0.2s forwards
 }
 .header-tagline::after {
 	content: " _";
