@@ -113,6 +113,7 @@ def favicon():
 
 
 port = 15498
+port = 8080
 def getapp():
 	print("Starting server...")
 	return app
