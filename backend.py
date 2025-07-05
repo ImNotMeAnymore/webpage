@@ -118,6 +118,6 @@ def getapp():
 	print("Starting server...")
 	return app
 if __name__ == "__main__":
-	#getapp().run(host="::", port=port)
-	from waitress import serve
-	serve(getapp(), host="::", port=port)
+	getapp().run(host="::", port=port)
+	#from waitress import serve
+	#serve(getapp(), host="::", port=port)
