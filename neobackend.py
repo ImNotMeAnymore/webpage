@@ -73,16 +73,28 @@ database.create_tables([Entries], safe=True)
 def newEntry(title:str, content:str) -> Entries:
 	return Entries(title=title, content=content, date=int(time.time())) #pyright: ignore
 
+
+def apiError(reason:str, code:int=400, **extra):
+	extra.update({"error":reason})
+	return extra, code
+
+
+
+
+
 @app.before_request
 def before():
 	if RQ.path.startswith("/api"):
 		auth = RQ.headers.get('Authorization', "").split(" ")
-		if auth[0]!="Bearer": return jsonify({'error': 'Missing or invalid auth header'}), 400 #malformed
-		if auth[1]!=os.environ.get('API_KEY',""): return jsonify({'error': 'Invalid API key'}), 401 #unauthorized
+		if auth[0]!="Bearer": return apiError('Missing or invalid auth header') #malformed
+		if auth[1]!=os.environ.get('API_KEY',""): return apiError('Invalid API key', 401) #unauthorized
 
 
-
-
+favicons = {
+	"static/favicon.png":		2000,
+	"static/favicon-s.png":		 100,
+	"static/favicon-ss.png":	   1,
+}
 quote404 = [ #TODO put this in the database
 	#also long lines look bad on phones, make responsive on the css
 	"I was never really here to begin with.",
@@ -97,29 +109,6 @@ quote404 = [ #TODO put this in the database
 	"Turn it off and on again.",
 	"Whatever it was it's not here.",
 ]
-@app.errorhandler(404)
-def page_not_found(e):
-	return render_template('404.html.jinja', len=len, quote=random.choice(quote404)), 404
-
-
-favicons = {
-	"static/favicon.png":		2000,
-	"static/favicon-s.png":		 100,
-	"static/favicon-ss.png":	   1,
-}
-@app.route('/favicon')
-@app.route('/favicon.ico')
-def favicon():
-	a = random.choices([*favicons], cum_weights=[*favicons.values()], k=1)[0]
-	return send_file(a, mimetype='image/png')
-
-@app.route('/css/<name>')
-def css(name:str): return send_file(f"static/{name}.css", mimetype='text/css')
-@app.route('/theme/<name>') #redundant
-def theme(name:str): return send_file(f"static/theme/{name}.css", mimetype='text/css')
-
-
-
 quoteEntry = [ #TODO put this in the database
 	#also long lines look bad on phones, make responsive on the css
 	"Just whatever",
@@ -136,31 +125,47 @@ quoteEntry = [ #TODO put this in the database
 	"Unsafe and unwise",
 	"Makes you sick doesn't it?"
 ]
-@app.route("/e/<int:id>")
-def blogentry(id:int):
-	if (e:=Entries.byID(id)) is None: abort(404)
-	return render_template('entry.html.jinja', d=e, theme="normal", len=len, quote=random.choice(quoteEntry))
-
-
 quoteHome = [ #TODO put this in the database
 	#also long lines look bad on phones, make responsive on the css
 	"Play Mc BTA!", #TODO populate
 ]
+
+@app.errorhandler(404)
+def page_not_found(e):
+	return render_template('404.html.jinja', len=len, quote=random.choice(quote404)), 404
+@app.route('/favicon')
+@app.route('/favicon.ico')
+def favicon():
+	a = random.choices([*favicons], cum_weights=[*favicons.values()], k=1)[0]
+	return send_file(a, mimetype='image/png')
+@app.route('/css/<name>')
+def css(name:str): return send_file(f"static/{name}.css", mimetype='text/css')
+@app.route('/theme/<name>') #redundant
+def theme(name:str): return send_file(f"static/theme/{name}.css", mimetype='text/css')
+@app.route("/e/<int:id>")
+def blogentry(id:int):
+	if (e:=Entries.byID(id)) is None: abort(404)
+	return render_template('entry.html.jinja', d=e, theme="normal", len=len, quote=random.choice(quoteEntry))
 @app.route("/")
 def index():
-	return render_template('home.html.jinja', theme="normal", len=len, quote=random.choice(quoteEntry))
-
-
-
-
-
-
-
-
-
-
-
-
+	return render_template('home.html.jinja', theme="normal", len=len, quote=random.choice(quoteHome))
+@app.get("/api/entries")
+def api_getall():
+	try: return jsonify({"e":{e.id:e.title for e in Entries.select()}})
+	except Exception as ex: return apiError(str(type(ex)), 500)
+@app.get('/api/entries/<int:id>')
+def api_getbyID(id: int):
+	if (e:=Entries.byID(id)) is None: return apiError("Entry not found", 500)
+	return jsonify({'title':e.title, "date":e.date, "content":e.content})
+@app.post("/api/new")
+def api_newEntry():
+	try:
+		data = RQ.get_json()
+		if not data: return apiError("No JSON data provided", 400)
+		if not isinstance(data, dict): return apiError("Invalid JSON data", 400)
+		(e:=newEntry(data['title'], data['content'])).save()
+		return jsonify({'title':e.title, "date":e.date, "content":e.content}), 201
+	except Exception as ex: return apiError(str(type(ex)), 500)
 
 
 
