@@ -254,9 +254,7 @@ port = 15498
 def api_get_entries():
 	try: return jsonify({"e":{e.id:e.title for e in Entries.select()}})
 	except Exception as ex: return jsonify({'error': str(type(ex))}), 500
-@app.get('/api/entries/<int:id>')
-def api_get_entry(id: int):
-	pass
+
 ###@app.route('/api/entries', methods=['GET'])
 ###@require_api_auth
 ###def api_get_entries():

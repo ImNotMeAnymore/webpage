@@ -3,8 +3,8 @@
 
 import os
 import random
-import re
-import hashlib
+#import re
+#import hashlib
 from typing import (Any)
 from flask import (
 	Flask,
@@ -13,9 +13,9 @@ from flask import (
 	send_file,
 	render_template,
 	#send_from_directory,
-	redirect,
+	#redirect,
 	#url_for,
-	session,
+	#session,
 	jsonify
 )
 from peewee import (
@@ -78,10 +78,6 @@ def apiError(reason:str, code:int=400, **extra):
 	extra.update({"error":reason})
 	return extra, code
 
-
-
-
-
 @app.before_request
 def before():
 	if RQ.path.startswith("/api"):
@@ -108,6 +104,7 @@ quote404 = [ #TODO put this in the database
 	"The quote is a lie",
 	"Turn it off and on again.",
 	"Whatever it was it's not here.",
+	"Can we have your liver then?"
 ]
 quoteEntry = [ #TODO put this in the database
 	#also long lines look bad on phones, make responsive on the css
@@ -166,8 +163,6 @@ def api_newEntry():
 		(e:=newEntry(data['title'], data['content'])).save()
 		return jsonify({'title':e.title, "date":e.date, "content":e.content}), 201
 	except Exception as ex: return apiError(str(type(ex)), 500)
-
-
 
 def getport(): #maybe 
 	return int(os.environ.get("PORT",15498))
