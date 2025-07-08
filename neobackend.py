@@ -80,7 +80,11 @@ def before():
 		if auth[0]!="Bearer": return jsonify({'error': 'Missing or invalid auth header'}), 400 #malformed
 		if auth[1]!=os.environ.get('API_KEY',""): return jsonify({'error': 'Invalid API key'}), 401 #unauthorized
 
-quote404 = [
+
+
+
+quote404 = [ #TODO put this in the database
+	#also lines too long look bad on phones, make responsive on the css
 	"I was never really here to begin with.",
 	"I'm sorry, Dave. I'm afraid I can't do that.",
 	"If something doesn't exist, create it yourself!",
@@ -98,8 +102,31 @@ def page_not_found(e):
 	return render_template('404.html.jinja', len=len, quote=random.choice(quote404)), 404
 
 
+favicons = {
+	"static/favicon.png":		2000,
+	"static/favicon-s.png":		 100,
+	"static/favicon-ss.png":	   1,
+}
+@app.route('/favicon')
+@app.route('/favicon.ico')
+def favicon():
+	a = random.choices([*favicons], cum_weights=[*favicons.values()], k=1)[0]
+	return send_file(a, mimetype='image/png')
 
 
+
+
+
+
+def getport(): #maybe 
+	return int(os.environ.get("PORT",15498))
+def getapp():
+	print("Starting server...")
+	return app
+if __name__ == "__main__":
+	getapp().run(host="::", port=getport())
+	#from waitress import serve
+	#serve(getapp(), host="::", port=getport())
 
 
 

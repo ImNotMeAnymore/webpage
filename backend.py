@@ -274,7 +274,6 @@ def api_get_entry(id: int):
 ###	except Exception as e:
 ###		return jsonify({'error': str(e)}), 500
 @app.route('/api/entries/<int:id>', methods=['GET'])
-@require_api_auth
 def api_get_entry(id: int):
 	"""Get a specific entry"""
 	try:
@@ -292,7 +291,6 @@ def api_get_entry(id: int):
 		return jsonify({'error': str(e)}), 500
 
 @app.route('/api/entries', methods=['POST'])
-@require_api_auth
 def api_create_entry():
 	"""Create a new entry"""
 	try:
@@ -322,7 +320,6 @@ def api_create_entry():
 		return jsonify({'error': str(e)}), 500
 
 @app.route('/api/entries/<int:id>', methods=['PUT'])
-@require_api_auth
 def api_update_entry(id: int):
 	"""Update an existing entry"""
 	try:
@@ -359,7 +356,7 @@ def api_update_entry(id: int):
 		return jsonify({'error': str(e)}), 500
 
 @app.route('/api/entries/<int:id>', methods=['DELETE'])
-@require_api_auth
+# yeah these are all ai trash in case you didn't realize
 def api_delete_entry(id: int):
 	"""Delete an entry"""
 	try:
