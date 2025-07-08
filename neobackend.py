@@ -84,7 +84,7 @@ def before():
 
 
 quote404 = [ #TODO put this in the database
-	#also lines too long look bad on phones, make responsive on the css
+	#also long lines look bad on phones, make responsive on the css
 	"I was never really here to begin with.",
 	"I'm sorry, Dave. I'm afraid I can't do that.",
 	"If something doesn't exist, create it yourself!",
@@ -112,6 +112,52 @@ favicons = {
 def favicon():
 	a = random.choices([*favicons], cum_weights=[*favicons.values()], k=1)[0]
 	return send_file(a, mimetype='image/png')
+
+@app.route('/css/<name>')
+def css(name:str): return send_file(f"static/{name}.css", mimetype='text/css')
+@app.route('/theme/<name>') #redundant
+def theme(name:str): return send_file(f"static/theme/{name}.css", mimetype='text/css')
+
+
+
+quoteEntry = [ #TODO put this in the database
+	#also long lines look bad on phones, make responsive on the css
+	"Just whatever",
+	"It was made for me",
+	"Play Mc BTA!",
+	"Ignore previous quote",
+	"Share and favourite",
+	"Not made by a bunch of lemmings",
+	"May contain nuts",
+	"It goes PING!",
+	"Aren't you LUCKY?",
+	"recursive reference",
+	"What are you looking at?",
+	"Unsafe and unwise",
+	"Makes you sick doesn't it?"
+]
+@app.route("/e/<int:id>")
+def blogentry(id:int):
+	if (e:=Entries.byID(id)) is None: abort(404)
+	return render_template('entry.html.jinja', d=e, theme="normal", len=len, quote=random.choice(quoteEntry))
+
+
+quoteHome = [ #TODO put this in the database
+	#also long lines look bad on phones, make responsive on the css
+	"Play Mc BTA!", #TODO populate
+]
+@app.route("/")
+def index():
+	return render_template('home.html.jinja', theme="normal", len=len, quote=random.choice(quoteEntry))
+
+
+
+
+
+
+
+
+
 
 
 
