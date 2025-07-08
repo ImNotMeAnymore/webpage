@@ -1,33 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{{d.title}}</title>
-	<link rel="icon" type="image/x-icon" href="/favicon">
-	<link rel="stylesheet" id="theme" href="/theme/{{theme}}">
-	<link rel="stylesheet" href="/css/main">
-</head>
-<body>
-	<header>
-		<div class="header-title-row"><h1 class="header-title">{{d.title}}</h1></div>
-		<div class="header-tagline" style="--quote-length:{{len(quote)}}ch; --quote-time:{{len(quote)/20}}s;">{{quote}}</div>
-		<nav class="header-nav">
-			<a href="/">Home</a><a href="/about">About</a><a href="/index">Index of stuff</a>
-		</nav>
-	</header>
-	<main>
-		{{d.content|safe}}
-	</main>
+{% extends "base.html.jinja" %}
 
-	<footer>
-		<div class="footer-links">
-			<ul>
-				<li><a href="mailto:who@127.0.0.1">No e-mail yet</a></li>
-				<li><a href="https://127.0.0.1">source code</a></li>
-			</ul>
-		</div>
-	</footer>
+{% block page_title %}{{d.title}}{% endblock %}
 
-</body>
-</html>
+{% block page_heading %}{{d.title}}{% endblock %}
+
+{% block page_theme %}{{theme}}{% endblock %}
+
+{% block content %}
+{{d.content|safe}}
+{% endblock %}

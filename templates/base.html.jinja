@@ -1,0 +1,91 @@
+{#  [Ai generated garbage, ignore mostly]
+   Base Template for Blog Website
+   
+   This template provides the core structure for all pages on the website.
+   It includes header, navigation, main content area, and footer.
+   
+   HOW TO USE THIS TEMPLATE:
+   
+   1. Extend this template in your page templates:
+      {% extends "base.html.jinja" %}
+   
+   2. Override the blocks you need:
+      {% block page_title %}Your Page Title{% endblock %}
+      {% block content %}Your page content here{% endblock %}
+   
+   AVAILABLE BLOCKS:
+   
+   - page_title: Text that appears in the browser tab/title bar
+   - page_heading: Main heading shown in the header
+   - page_tagline: Subtitle/tagline shown under the heading
+   - page_theme: CSS theme name (default: "normal")
+   - tagline_length: CSS animation length for tagline (default: 25)
+   - tagline_time: CSS animation timing for tagline (default: 1.25)
+   - extra_css: Additional CSS styles
+   - navigation: Override entire navigation (optional, default: Home/About/Index)
+   - content: Main page content (REQUIRED)
+   - footer_content: Override footer content (optional)
+   
+   EXAMPLE USAGE:
+   
+   {% extends "base.html.jinja" %}
+   
+   {% block page_title %}My Blog Post{% endblock %}
+   {% block page_heading %}Welcome to My Blog{% endblock %}
+   {% block page_tagline %}Thoughts and ideas{% endblock %}
+   
+   {% block content %}
+   <h2>My Blog Post</h2>
+   <p>This is my blog post content...</p>
+   {% endblock %}
+   
+   {% block navigation %}
+   <nav class="header-nav">
+   	<a href="/">Home</a><a href="/admin">Admin</a><a href="/logout">Logout</a>
+   </nav>
+   {% endblock %}
+#}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block page_title %}{% endblock %}</title>
+	<link rel="icon" type="image/x-icon" href="/favicon">
+	<link rel="stylesheet" id="theme" href="/theme/{% block page_theme %}normal{% endblock %}">
+	<link rel="stylesheet" href="/css/main">
+	{% block extra_css %}{% endblock %}
+</head>
+<body>
+	<header>
+		<div class="header-title-row">
+			<h1 class="header-title">{% block page_heading %}{% endblock %}</h1>
+		</div>
+		<div class="header-tagline" style="--quote-length:{{len(quote)}}ch; --quote-time:{{len(quote)/20}}s;">{{quote}}</div>
+		{% block navigation %}
+		<nav class="header-nav"><a href="/">Home</a><a href="/about">About</a><a href="/index">Index of stuff</a></nav>
+		{% endblock %}
+	</header>
+
+	<main>
+		{% block content %}
+		{# This block must be overridden by child templates #}
+		<p>No content provided. Please override the 'content' block in your template.</p>
+		{% endblock %}
+	</main>
+
+	<footer>
+		{% block footer_content %}
+		<div class="footer-links">
+			<ul>
+				<li><a href="mailto:who@127.0.0.1">No e-mail yet</a></li>
+				<li><a href="https://127.0.0.1">source code</a></li>
+			</ul>
+		</div>
+		{% endblock %}
+	</footer>
+
+
+</body>
+</html>
