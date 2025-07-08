@@ -95,10 +95,7 @@ quote404 = [
 ]
 @app.errorhandler(404)
 def page_not_found(e):
-	return render_template('entry.html.jinja', d={"title":"What were you looking for???",
-		"content":"<h1 class='big-404 cent'>404</h1><p class='cent'>page not found</p>"}, theme="normal",
-		len=len, quote=random.choice(quote404)), 404
-
+	return render_template('404.html.jinja', len=len, quote=random.choice(quote404)), 404
 
 
 
