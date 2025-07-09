@@ -33,25 +33,24 @@ import secrets
 
 
 def loadenv():
-	with open('.env', 'r') as f: #just raise if it doesn't exist
+	with open(".env", "r") as f: #just raise if it doesn't exist
 		for i in f.read().split("\n"):
 			if i[0] == "#": continue
 			if "=" in i:
-				k,v = i.split('=', 1)
+				k,v = i.split("=", 1)
 				os.environ[k] = v
 try: loadenv()
 except FileNotFoundError: pass #for now
-
-while (ME:=os.environ.get('USER')) is None:
+while (ME:=os.environ.get("USER")) is None:
 	import setup_admin
 	setup_admin.makenv()
 
 
 app = Flask(os.environ.get("appname",__name__))
-app.config['KEY'] = os.environ.get('KEY', secrets.token_hex(32))
+app.config["SECRET_KEY"] = os.environ.get("KEY", secrets.token_hex(128))
 
 
-database = SqliteDatabase('instance/database.db')
+database = SqliteDatabase("instance/database.db")
 
 class BaseModel(Model):
 	class Meta: database = database
@@ -60,13 +59,11 @@ class Entries(BaseModel):
 	title = CharField()
 	content = TextField()
 	date = IntegerField()
-	class Meta: # pyrefly:ignore
-		table_name = 'ENTRIES'
+	class Meta: table_name = "ENTRIES" # pyrefly:ignore
 	@classmethod
 	def byID(cls, id:Any, default:Any=None) -> Any:
 		try: return cls.get_by_id(id)
 		except DoesNotExist: return default
-
 
 database.create_tables([Entries], safe=True)
 
@@ -78,15 +75,17 @@ def apiError(reason:str, code:int=400, **extra):
 	extra.update({"error":reason})
 	return extra, code
 
+
+
 @app.before_request
 def before():
 	if RQ.path.startswith("/api"):
-		auth = RQ.headers.get('Authorization', "").split(" ")
-		if auth[0]!="Bearer": return apiError('Missing or invalid auth header') #malformed
-		if auth[1]!=os.environ.get('API_KEY',""): return apiError('Invalid API key', 401) #unauthorized
+		auth = RQ.headers.get("Authorization", "").split(" ")
+		if auth[0]!="Bearer": return apiError("Missing or invalid auth header") #malformed
+		if auth[1]!=os.environ.get("KEY",""): return apiError("Invalid API key", 401) #unauthorized
 
 
-favicons = {
+favicons = { #TODO put this in the database
 	"static/favicon.png":		2000,
 	"static/favicon-s.png":		 100,
 	"static/favicon-ss.png":	   1,
@@ -127,42 +126,69 @@ quoteHome = [ #TODO put this in the database
 	"Play Mc BTA!", #TODO populate
 ]
 
+
+
+
+# =================== ERRORS ===================
+
 @app.errorhandler(404)
-def page_not_found(e):
-	return render_template('404.html.jinja', len=len, quote=random.choice(quote404)), 404
-@app.route('/favicon')
-@app.route('/favicon.ico')
-def favicon():
-	a = random.choices([*favicons], cum_weights=[*favicons.values()], k=1)[0]
-	return send_file(a, mimetype='image/png')
-@app.route('/css/<name>')
-def css(name:str): return send_file(f"static/{name}.css", mimetype='text/css')
-@app.route('/theme/<name>') #redundant
-def theme(name:str): return send_file(f"static/theme/{name}.css", mimetype='text/css')
-@app.route("/e/<int:id>")
-def blogentry(id:int):
-	if (e:=Entries.byID(id)) is None: abort(404)
-	return render_template('entry.html.jinja', d=e, theme="normal", len=len, quote=random.choice(quoteEntry))
-@app.route("/")
-def index():
-	return render_template('home.html.jinja', theme="normal", len=len, quote=random.choice(quoteHome))
+def error404(e):
+	return render_template("404.html.jinja", len=len, quote=random.choice(quote404)), 404
+
+
+
+# ================== API ===================
+
 @app.get("/api/entries")
 def api_getall():
 	try: return jsonify({"e":{e.id:e.title for e in Entries.select()}})
 	except Exception as ex: return apiError(str(type(ex)), 500)
-@app.get('/api/entries/<int:id>')
+@app.get("/api/entries/<int:id>")
 def api_getbyID(id: int):
 	if (e:=Entries.byID(id)) is None: return apiError("Entry not found", 500)
-	return jsonify({'title':e.title, "date":e.date, "content":e.content})
+	return jsonify({"title":e.title, "date":e.date, "content":e.content})
 @app.post("/api/new")
 def api_newEntry():
 	try:
 		data = RQ.get_json()
 		if not data: return apiError("No JSON data provided", 400)
 		if not isinstance(data, dict): return apiError("Invalid JSON data", 400)
-		(e:=newEntry(data['title'], data['content'])).save()
-		return jsonify({'title':e.title, "date":e.date, "content":e.content}), 201
+		(e:=newEntry(data["title"], data["content"])).save()
+		return jsonify({"title":e.title, "date":e.date, "content":e.content}), 201
 	except Exception as ex: return apiError(str(type(ex)), 500)
+
+
+
+# ================== USER STUFF ===================
+
+@app.route("/e/<int:id>")
+def blogentry(id:int):
+	if (e:=Entries.byID(id)) is None: abort(404)
+	return render_template("entry.html.jinja", d=e, theme="normal", len=len, quote=random.choice(quoteEntry))
+
+@app.route("/")
+def index():
+	return render_template("home.html.jinja", theme="normal", len=len, quote=random.choice(quoteHome))
+
+
+
+# =================== OTHERS ===================
+
+@app.route("/favicon")
+@app.route("/favicon.ico")
+def favicon():
+	a = random.choices([*favicons], cum_weights=[*favicons.values()], k=1)[0]
+	return send_file(a, mimetype="image/png")
+@app.route("/css/<name>")
+def css(name:str): return send_file(f"static/{name}.css", mimetype="text/css")
+@app.route("/theme/<name>") #redundant
+def theme(name:str): return send_file(f"static/theme/{name}.css", mimetype="text/css")
+
+
+
+
+
+# =================== === ===================
 
 def getport(): #maybe 
 	return int(os.environ.get("PORT",15498))
