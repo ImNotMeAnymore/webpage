@@ -7,7 +7,7 @@ import secrets
 
 def makenv(path:str=".env"):
 	print("Creating new admin credentials!")
-	print("="*30)
+	print("="*31)
 	with open(path,"w")as f:
 		print("ME="+input("Enter admin username: ").strip(),file=f)
 		print("PWH="+hashlib.sha256(getpass.getpass("Enter admin password: ").encode()).hexdigest(), file=f)
