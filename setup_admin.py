@@ -13,7 +13,9 @@ def makenv(path:str=".env"):
 		print("PWH="+hashlib.sha256(getpass.getpass("Enter admin password: ").encode()).hexdigest(), file=f)
 		print("KEY="+secrets.token_hex(128), file=f)
 		print("PORT="+str(15498), file=f)
-	
+
+if __name__ == "__main__": makenv()
+
 # ↓ all this bullshit for just this ↑
 
 # [170 lines of AI generated bullshit were here once]
