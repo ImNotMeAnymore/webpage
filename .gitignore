@@ -193,6 +193,8 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+static/*.zip
+
 
 static/favicon-s.png
 static/favicon-ss.png
