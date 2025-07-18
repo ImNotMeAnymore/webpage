@@ -172,7 +172,7 @@ def index():
 
 @app.route("/dl")
 def dl():
-	return send_file("static/mc.zip")
+	return send_file("static/mc.zip", as_attachment=True, mimetype='application/zip')
 
 
 # =================== OTHERS ===================
