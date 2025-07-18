@@ -35,7 +35,7 @@ import secrets
 def loadenv():
 	with open(".env", "r") as f: #just raise if it doesn't exist
 		for i in f.read().split("\n"):
-			if i[0] == "#": continue
+			if not i or i[0] == "#": continue
 			if "=" in i:
 				k,v = i.split("=", 1)
 				os.environ[k] = v
@@ -170,6 +170,9 @@ def blogentry(id:int):
 def index():
 	return render_template("home.html.jinja", theme="normal", len=len, quote=random.choice(quoteHome))
 
+@app.route("/dl")
+def dl():
+	return send_file("static/mc.zip")
 
 
 # =================== OTHERS ===================
